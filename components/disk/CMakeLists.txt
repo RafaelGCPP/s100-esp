@@ -1,0 +1,5 @@
+if(ESP_PLATFORM)
+    idf_component_register()
+else()
+    add_library(component_disk INTERFACE)
+endif()

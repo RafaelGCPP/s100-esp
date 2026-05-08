@@ -1,0 +1,10 @@
+# Normalize text files
+* text=auto eol=lf
+
+# Project disk images are binary
+*.dsk binary
+*.imd binary
+
+# Build products are binary
+*.elf binary
+*.bin binary
