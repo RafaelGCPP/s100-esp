@@ -1,0 +1,51 @@
+; Second stage CP/M bootloader stub for 64K map
+; Assembler: z80asm
+;
+; Flow:
+; 1) Configure RAM bank 0
+; 2) Writes "boot done" through BIOS CONOUT
+; 3) Halts! 
+
+
+STACK_TOP:         EQU 0FFFFH
+PORT_BANK_0_CTRL:  EQU 090H
+PORT_BANK_1_CTRL:  EQU 091H
+PORT_BANK_2_CTRL:  EQU 092H
+PORT_BANK_3_CTRL:  EQU 093H
+RAM_0_BANK_VALUE:  EQU 00H      
+RAM_1_BANK_VALUE:  EQU 01H
+RAM_2_BANK_VALUE:  EQU 02H
+SYSTEM_BANK_VALUE: EQU 0FEH     
+
+BIOS_BASE:         EQU 0F200H
+BIOS_CONOUT:       EQU BIOS_BASE + 0CH
+
+
+ORG 04000H
+
+SECOND_STAGE:
+            ; Move ROM out!
+			LD SP,STACK_TOP
+			LD A,RAM_0_BANK_VALUE
+			OUT (PORT_BANK_0_CTRL),A
+
+			LD HL,BOOT_MSG
+			CALL PRINT_STRING
+
+HALT_FOREVER:
+			HALT
+			JR HALT_FOREVER
+
+; Print zero-terminated string pointed by HL using CP/M BIOS CONOUT.
+PRINT_STRING:
+			LD A,(HL)
+			OR A
+			RET Z
+			LD C,A
+			CALL BIOS_CONOUT
+			INC HL
+			JR PRINT_STRING
+
+BOOT_MSG:
+			DB 0DH,0AH
+			DB 'boot done',0DH,0AH,00H

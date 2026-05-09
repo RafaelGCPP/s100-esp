@@ -30,3 +30,7 @@ esp32/sdkconfig.old
 # Editor/OS noise
 .vscode/
 .DS_Store
+
+# assembly object files
+assembly/*.BIN
+assembly/*.LST

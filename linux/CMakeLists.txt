@@ -27,7 +27,10 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../components/uart ${CMAKE_BINARY_DIR
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../components/machine ${CMAKE_BINARY_DIR}/components/machine)
 
 add_executable(s100_linux main.cpp)
-target_include_directories(s100_linux PRIVATE ${chips_SOURCE_DIR})
-target_link_libraries(s100_linux PRIVATE chips_impl)
+target_include_directories(s100_linux PRIVATE
+  ${chips_SOURCE_DIR}
+  ${CMAKE_CURRENT_LIST_DIR}/../roms/monitor
+)
+target_link_libraries(s100_linux PRIVATE component_machine component_cpu component_memory component_uart chips_impl)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../experiments/z80_hello ${CMAKE_BINARY_DIR}/experiments/z80_hello)
