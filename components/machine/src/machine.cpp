@@ -105,6 +105,8 @@ bool Machine::isHalted() const {
  * Binds device port handlers into the I/O bus.
  */
 void Machine::initializeIoBus() {
+    constexpr uint8_t kMapperBasePort = 0x90;
+
     for (uint8_t port = 0; port < 8; ++port) {
         io_bus_.registerReadHandler(port, [this](uint8_t io_port) {
             return uart_.ioRead(io_port);
@@ -112,6 +114,18 @@ void Machine::initializeIoBus() {
 
         io_bus_.registerWriteHandler(port, [this](uint8_t io_port, uint8_t value) {
             uart_.ioWrite(io_port, value);
+        });
+    }
+
+    for (uint8_t slot = 0; slot < 4; ++slot) {
+        const uint8_t port = static_cast<uint8_t>(kMapperBasePort + slot);
+
+        io_bus_.registerReadHandler(port, [this, slot](uint8_t) {
+            return memory_.getSlotBank(slot);
+        });
+
+        io_bus_.registerWriteHandler(port, [this, slot](uint8_t, uint8_t value) {
+            memory_.mapSlot(slot, value);
         });
     }
 }
