@@ -38,6 +38,13 @@ uint16_t Z80Cpu::getPC() const {
 }
 
 /**
+ * Returns true when the CPU is in HALT state.
+ */
+bool Z80Cpu::isHalted() const {
+    return (pins_ & Z80_HALT) != 0;
+}
+
+/**
  * Converts the current pin mask to a structured bus request.
  */
 Z80BusRequest Z80Cpu::decodeRequest() const {

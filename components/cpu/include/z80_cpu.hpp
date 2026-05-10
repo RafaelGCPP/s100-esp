@@ -55,6 +55,11 @@ public:
      */
     uint16_t getPC() const;
 
+    /**
+     * Returns true when the CPU is in HALT state.
+     */
+    bool isHalted() const;
+
 private:
     /**
      * Converts the current pin mask to a structured bus request.

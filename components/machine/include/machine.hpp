@@ -78,6 +78,11 @@ public:
      */
     uint16_t getPC() const;
 
+    /**
+     * Returns true when the CPU is halted.
+     */
+    bool isHalted() const;
+
 private:
     /**
      * Binds device port handlers into the I/O bus.

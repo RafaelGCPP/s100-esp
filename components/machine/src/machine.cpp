@@ -95,6 +95,13 @@ uint16_t Machine::getPC() const {
 }
 
 /**
+ * Returns true when the CPU is halted.
+ */
+bool Machine::isHalted() const {
+    return cpu_.isHalted();
+}
+
+/**
  * Binds device port handlers into the I/O bus.
  */
 void Machine::initializeIoBus() {

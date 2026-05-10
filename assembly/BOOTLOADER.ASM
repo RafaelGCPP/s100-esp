@@ -52,14 +52,17 @@ RESET_ENTRY:
 			LD BC,BOOT2_IMAGE_END-BOOT2_IMAGE
 			LDIR
 
+			JP BOOT2_DEST
+
 ; -----------------------------------------------------------------------------
 ; BIOS_IMAGE: binary BIOS payload copied into RAM at F200h
 ; -----------------------------------------------------------------------------
-
 BIOS_IMAGE:
 			INCBIN "BIOS.BIN"
 BIOS_IMAGE_END:
-
+; -----------------------------------------------------------------------------
+; BOOT2IMAGE: Second stage bootloader copied into RAM at 4000h
+; -----------------------------------------------------------------------------
 BOOT2_IMAGE:
 			INCBIN "BOOT2STAGE.BIN"
 BOOT2_IMAGE_END:
